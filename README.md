@@ -12,8 +12,9 @@ It was inspired by [Gökhan Tür's deasciifier] (http://www.hlst.sabanciuniv.edu
 
 The program uses decision lists (included at the end of this file)
 which was created based on 1 million words of Turkish news text using
-the GPA algorithm. For more information on GPA see the Greedy prepend
-algorithm for decision list induction.
+the GPA algorithm. For more information on GPA see the [Greedy prepend
+algorithm for decision list induction]
+(http://denizyuret.blogspot.com/2006/11/greedy-prepend-algorithm-for-decision.html).
 
 To activate the program first load this file into emacs:
 
@@ -27,5 +28,16 @@ When Turkish mode is enabled, the space, tab, and enter keys correct
 the previous word by adding Turkish accents. For corrections use C-t
 to toggle the accent of the character under the cursor.
 
+## About Unicode and UTF-8
+
+Please read the remarks of Deniz Yüret about the Unicode and utf-8
+issue and changes between Emacs 23 and previous versions (the following comment 
+is about turkish-char-alist data structure):
+
+    ;; deniz 20100217: Emacs 23 seems to have changed its internal 
+    ;; representation to unicode.  So I am adding unicode as another 
+    ;; column after utf-8.  The columns now are: ascii, latin-5, multibyte
+    ;; latin-5, utf-8, unicode.  Emacs versions older than 23 should use 
+    ;; column 3 (utf8), 23 and later should use column 4 (unicode).
 
 
