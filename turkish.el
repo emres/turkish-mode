@@ -1,10 +1,10 @@
-(defvar turkish-el-version "$Id: turkish.el,v 2.3 2006/11/29 13:51:30 dyuret Exp $")
+(defvar turkish-el-version "$Id: turkish.el,v 2.5 2010/02/17 20:45:01 dyuret Exp $")
 
-;;; Emacs Turkish Extension (c) Deniz Yuret, 2006
+;;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
 
 ;;; This is for people trying to type Turkish documents on a U.S.
 ;;; keyboard.  The latest version is available at:
-;;;       http://www.denizyuret.com/turkish
+;;; http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html
 
 ;;; To activate the program first load this file into emacs:
 ;;;       M-x load-file ENTER turkish.el ENTER
@@ -83,7 +83,7 @@ to toggle the accent of the character under cursor."
 (defun turkish-correct-last-word ()
   "Adds necessary accents to the last word when a space is typed."
   (interactive)
-  (if (= ?\r last-input-event)
+  (if (= ?\r last-command-event)
       (newline)
     (self-insert-command 1))
   (save-excursion
@@ -232,19 +232,25 @@ to toggle the accent of the character under cursor."
 ;; for Turkish characters but there is.  So we have unibyte latin-5,
 ;; multibyte latin-5 and multibyte utf-8.
 
+;; deniz 20100217: Emacs 23 seems to have changed its internal
+;; representation to unicode.  So I am adding unicode as another
+;; column after utf-8.  The columns now are: ascii, latin-5, multibyte
+;; latin-5, utf-8, unicode.  Emacs versions older than 23 should use
+;; column 3 (utf8), 23 and later should use column 4 (unicode).
+
 (defvar turkish-char-alist
-  '((?c 231 3815 2279)
-    (?C 199 3783 2247)
-    (?g 191 3824 331839)
-    (?G 190 3792 331838)
-    (?i 209 3837 331857)
-    (?I 208 3805 331856)
-    (?o 246 3830 2294)
-    (?O 214 3798 2262)
-    (?s 255 3838 331903)
-    (?S 254 3806 331902)
-    (?u 252 3836 2300)
-    (?U 220 3804 2268)))
+  '((?c 231 3815 2279 231)
+    (?C 199 3783 2247 199)
+    (?g 191 3824 331839 287)
+    (?G 190 3792 331838 286)
+    (?i 209 3837 331857 305)
+    (?I 208 3805 331856 304)
+    (?o 246 3830 2294 246)
+    (?O 214 3798 2262 214)
+    (?s 255 3838 331903 351)
+    (?S 254 3806 331902 350)
+    (?u 252 3836 2300 252)
+    (?U 220 3804 2268 220)))
 
 (put 'turkish-char-table 'char-table-extra-slots 0)
 
@@ -263,7 +269,7 @@ to toggle the accent of the character under cursor."
 (defvar turkish-toggle-accent-table
   (let ((ct (make-char-table 'turkish-char-table)))
     (dolist (lst turkish-char-alist ct)
-      (aset ct (car lst) (nth 3 lst))
+      (aset ct (car lst) (if (string< emacs-version "23") (nth 3 lst) (nth 4 lst)))
       (mapc (lambda (x) (aset ct x (car lst))) (cdr lst))))
   "Converts turkish characters into ascii equivalent and appropriate
 ascii characters to utf-8 turkish accented versions.  This will also
