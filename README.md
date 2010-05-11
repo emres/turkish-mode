@@ -1,14 +1,13 @@
 # turkish-mode for Emacs
 
-This Emacs mode is developed by [Deniz Yüret]
-(http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html).
+This Emacs mode is developed by [Deniz Yüret](http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html).
 
 This is for people trying to type Turkish documents on a U.S. keyboard
 using Emacs. The program provides a turkish-mode in which the correct
 Turkish accents are added to the ascii version of the last word typed
 each time the user hits space. The latest version is available here.
 
-It was inspired by [Gökhan Tür's deasciifier] (http://www.hlst.sabanciuniv.edu/TL/deascii.html).
+It was inspired by [Gökhan Tür's deasciifier](http://www.hlst.sabanciuniv.edu/TL/deascii.html).
 
 The program uses decision lists (included at the end of this file)
 which was created based on 1 million words of Turkish news text using
