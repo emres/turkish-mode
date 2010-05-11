@@ -12,8 +12,7 @@ It was inspired by [Gökhan Tür's deasciifier](http://www.hlst.sabanciuniv.edu/
 The program uses decision lists (included at the end of this file)
 which was created based on 1 million words of Turkish news text using
 the GPA algorithm. For more information on GPA see the [Greedy prepend
-algorithm for decision list induction]
-(http://denizyuret.blogspot.com/2006/11/greedy-prepend-algorithm-for-decision.html).
+algorithm for decision list induction](http://denizyuret.blogspot.com/2006/11/greedy-prepend-algorithm-for-decision.html).
 
 To activate the program first load this file into emacs:
 
