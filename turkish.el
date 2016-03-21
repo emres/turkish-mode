@@ -1,3 +1,10 @@
+;;; turkish-mode.el --- Convert to Turkish characters on-the-fly
+
+;; Copyright (C) 2006, 2010 Deniz Yuret
+;; Author: Deniz Yuret
+;; Keywords: turkish, languages, automatic, conversion
+;; URL: http://www.denizyuret.com/2006/11/emacs-turkish-mode.html
+
 (defvar turkish-el-version "$Id: turkish.el,v 2.7 2010/02/27 18:22:36 dyuret Exp $")
 
 ;;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
