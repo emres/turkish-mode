@@ -407,3 +407,4 @@ its Turkish version.  If there is no '. t', e.g. (\"nXi\"), the
 character will not be replaced.  The first matching pattern is used to
 decide what to do."
   )
+;;; turkish-mode.el ends here
