@@ -1,82 +1,81 @@
-;;; turkish-mode.el --- Convert to Turkish characters on-the-fly
+;;; turkish.el --- Convert to Turkish characters on-the-fly
 
-;; Copyright (C) 2006, 2010 Deniz Yuret
-;; Author: Deniz Yuret
+;; Copyright (C) 2006, 2010 Deniz Yüret
+;; Author: Deniz Yüret
 ;; Maintainer: Emre Sevinç <emre.sevinc@gmail.com>
 ;; Keywords: turkish, languages, automatic, conversion
 ;; URL: http://www.denizyuret.com/2006/11/emacs-turkish-mode.html
 
-(defvar turkish-el-version "$Id: turkish.el,v 2.7 2010/02/27 18:22:36 dyuret Exp $")
 
-;;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
+;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
 
-;;; This is for people trying to type Turkish documents on a U.S.
-;;; keyboard.  The latest version is available at:
-;;; http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html
+;; This is for people trying to type Turkish documents on a U.S.
+;; keyboard.  The latest version is available at:
+;; http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html
 
-;;; To activate the program first load this file into emacs:
-;;;       M-x load-file ENTER turkish.el ENTER
-;;; Then turn on the turkish mode:
-;;;       M-x turkish-mode
+;; To activate the program first load this file into emacs:
+;;       M-x load-file ENTER turkish.el ENTER
+;; Then turn on the turkish mode:
+;;       M-x turkish-mode
 
-;;; In turkish-mode your words should be automatically corrected
-;;; whenever you hit space.  Alternatively you can select a region and
-;;; use M-x turkish-correct-region.  If the program makes a mistake
-;;; you can toggle a character's accent using C-t.
+;; In turkish-mode your words should be automatically corrected
+;; whenever you hit space.  Alternatively you can select a region and
+;; use M-x turkish-correct-region.  If the program makes a mistake
+;; you can toggle a character's accent using C-t.
 
-;;; The program was inspired by Gokhan Tur's deasciifier:
-;;;       http://www.hlst.sabanciuniv.edu/TL/deascii.html
+;; The program was inspired by Gokhan Tur's deasciifier:
+;;       http://www.hlst.sabanciuniv.edu/TL/deascii.html
 
-;;; The program uses decision lists (included at the end of this file)
-;;; which was created based on sample Turkish news text using the GPA
-;;; algorithm.  For more information on GPA:
-;;;       http://www.denizyuret.com/pub/iscis06
+;; The program uses decision lists (included at the end of this file)
+;; which was created based on sample Turkish news text using the GPA
+;; algorithm.  For more information on GPA:
+;;       http://www.denizyuret.com/pub/iscis06
 
-;;; Current test set accuracy is approximately 1 error every 214
-;;; corrections, or every 140 words.  (Using 1000000 training, 100000
-;;; validation instances for each letter, and 100000 out of sample
-;;; words for testing) Details on each ambiguous character is given
-;;; below.  Columns are:
+;; Current test set accuracy is approximately 1 error every 214
+;; corrections, or every 140 words.  (Using 1000000 training, 100000
+;; validation instances for each letter, and 100000 out of sample
+;; words for testing) Details on each ambiguous character is given
+;; below.  Columns are:
 
-;;; (1) ambiguous character
-;;; (2) number of instances
-;;; (3) number of errors
-;;; (4) error period = (2/3)
-;;; (5) number of rules.
+;; (1) ambiguous character
+;; (2) number of instances
+;; (3) number of errors
+;; (4) error period = (2/3)
+;; (5) number of rules.
 
-;;; (c 10503 46 228 2547)
-;;; (g 11316 14 808 752)
-;;; (i 66470 322 206 2953)
-;;; (o 17298 57 303 1621)
-;;; (s 23410 151 155 3198)
-;;; (u 24395 124 196 2394)
-;;; (all 153392 714 214 13465)
+;; (c 10503 46 228 2547)
+;; (g 11316 14 808 752)
+;; (i 66470 322 206 2953)
+;; (o 17298 57 303 1621)
+;; (s 23410 151 155 3198)
+;; (u 24395 124 196 2394)
+;; (all 153392 714 214 13465)
 
-;;; Making emacs work with foreign characters is tricky business.  You
-;;; need to set the coding system for three things:
-;;; (1) file coding system is set with prefer-coding-system.  Each
-;;; call adds a coding system at the front of the priority list for
-;;; automatic detection.  The last one is used for new files.
-;;; (2) set-terminal-coding-system for the terminal output.
-;;; (3) set-keyboard-coding system for keyboard input.
-;;; The following uses utf-8 as default, but will recognize latin-5
-;;; files as well:
+;; Making emacs work with foreign characters is tricky business.  You
+;; need to set the coding system for three things:
+;; (1) file coding system is set with prefer-coding-system.  Each
+;; call adds a coding system at the front of the priority list for
+;; automatic detection.  The last one is used for new files.
+;; (2) set-terminal-coding-system for the terminal output.
+;; (3) set-keyboard-coding system for keyboard input.
+;; The following uses utf-8 as default, but will recognize latin-5
+;; files as well:
 
-(prefer-coding-system 'iso-latin-5)
-(prefer-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
+;; (prefer-coding-system 'iso-latin-5)
+;; (prefer-coding-system 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
 
-;;; Here is the code:
+;;; Code:
 
 (define-minor-mode turkish-mode
   "Toggle Turkish mode.
 With no argument, this command toggles the mode.  Non-null prefix
 argument turns on the mode.  Null prefix argument turns off the mode.
 
-When Turkish mode is enabled, the space, tab, and enter keys correct
-the previous word by adding Turkish accents.  For corrections use C-t
-to toggle the accent of the character under cursor."
+When Turkish mode is enabled, the space and TAB keys correct the previous
+word by adding Turkish accents.  For corrections use C-t to toggle the 
+accent of the character under cursor."
   ;; The initial value.
   nil
   ;; The indicator for the mode line.
@@ -84,7 +83,6 @@ to toggle the accent of the character under cursor."
   ;; The minor mode bindings.
   '((" " . turkish-correct-last-word)
     ("\t" . turkish-correct-last-word)
-    ("\C-m" . turkish-correct-last-word)
     ("\C-t" . turkish-toggle-accent)
     ("\M-t" . turkish-toggle-last-word)
     ))
@@ -408,4 +406,6 @@ its Turkish version.  If there is no '. t', e.g. (\"nXi\"), the
 character will not be replaced.  The first matching pattern is used to
 decide what to do."
   )
-;;; turkish-mode.el ends here
+
+(provide 'turkish)
+;;; turkish.el ends here
