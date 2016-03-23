@@ -6,6 +6,7 @@
 ;; Keywords: turkish, languages, automatic, conversion
 ;; URL: http://www.denizyuret.com/2006/11/emacs-turkish-mode.html
 
+;;; Commentary:
 
 ;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
 
