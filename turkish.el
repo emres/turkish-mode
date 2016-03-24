@@ -8,16 +8,23 @@
 
 ;;; Commentary:
 
-;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
-
 ;; This is for people trying to type Turkish documents on a U.S.
-;; keyboard.  The latest version is available at:
-;; http://denizyuret.blogspot.com/2006/11/emacs-turkish-mode.html
-
-;; To activate the program first load this file into emacs:
-;;       M-x load-file ENTER turkish.el ENTER
+;; keyboard.
+;;
+;;; Installation:
+;;
+;; If you have `melpa' and `emacs24' installed, simply type:
+;;
+;; 	M-x package-install turkish
+;;
+;; Add following lines to your init file:
+;;
+;;     (require 'turkish)
 ;; Then turn on the turkish mode:
 ;;       M-x turkish-mode
+
+
+;; Emacs Turkish Extension (c) Deniz Yuret, 2006, 2010
 
 ;; In turkish-mode your words should be automatically corrected
 ;; whenever you hit space.  Alternatively you can select a region and
@@ -52,7 +59,7 @@
 ;; (u 24395 124 196 2394)
 ;; (all 153392 714 214 13465)
 
-;; Making emacs work with foreign characters is tricky business.  You
+;; Making emacs work with foreign characters is tricky business. You
 ;; need to set the coding system for three things:
 ;; (1) file coding system is set with prefer-coding-system.  Each
 ;; call adds a coding system at the front of the priority list for
@@ -78,7 +85,7 @@ With no argument, this command toggles the mode.  Non-null prefix
 argument turns on the mode.  Null prefix argument turns off the mode.
 
 When Turkish mode is enabled, the space and TAB keys correct the previous
-word by adding Turkish accents.  For corrections use C-t to toggle the 
+word by adding Turkish accents.  For corrections use C-t to toggle the
 accent of the character under cursor."
   ;; The initial value.
   nil
@@ -156,7 +163,7 @@ accent of the character under cursor."
   (interactive)
   (let ((alt (aref turkish-toggle-accent-table (following-char))))
     (if alt
-	(progn 
+	(progn
 	  (delete-char 1)
 	  (insert alt)
 	  (backward-char)))))
@@ -213,7 +220,7 @@ accent of the character under cursor."
 (defun turkish-match-pattern (dlist)
   (let ((rank (* 2 (hash-table-size dlist)))
 	(str (turkish-get-context turkish-context-size))
-	(start 0) 
+	(start 0)
 	len s r)
     (setq len (length str))
     (while (<= start turkish-context-size)
@@ -250,17 +257,17 @@ accent of the character under cursor."
 	    (aset err tr (1+ (aref err tr)))))
 	(forward-char))
       (princ
-       (mapcar (lambda (x) 
-		 (list (string x) 
+       (mapcar (lambda (x)
+		 (list (string x)
 		       (aref cnt x)
 		       (aref err x)
 		       (if (= (aref err x) 0) 0
-			   (/ (aref cnt x) (aref err x)))
+                         (/ (aref cnt x) (aref err x)))
 		       (let ((h (assoc x turkish-pattern-table)))
 			 (if h (hash-table-count (cdr h)) 0))))
 	       '(?a ?c ?g ?i ?o ?s ?u)))
       (princ (- (float-time) t0)))))
-	
+
 (defun turkish-backward-word ()
   (backward-word 1)
   (while (and (/= ?\  (char-syntax (preceding-char)))
@@ -285,7 +292,7 @@ accent of the character under cursor."
 
 (defvar turkish-char-alist
   ;; emacsen before 23 use utf8, latin5 etc.
-  (if (string< emacs-version "23")  
+  (if (string< emacs-version "23")
       '((?c 2279 231 3815)
 	(?C 2247 199 3783)
 	(?g 331839 191 3824)
@@ -360,7 +367,7 @@ characters to latin-5 when saving.")
 are converted to uppercase ascii equivalent.  Useful for pattern
 matching.  Handles all 3 encodings.  The confusing case of i is as
 follows: i => i, dotted I => i, dotless i => I, I => I")
-    
+
 (defvar turkish-downcase-asciify-table
   (let ((ct (make-char-table 'turkish-char-table))
 	(ch ?a))
