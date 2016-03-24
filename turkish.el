@@ -69,6 +69,9 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl))
+
 (define-minor-mode turkish-mode
   "Toggle Turkish mode.
 With no argument, this command toggles the mode.  Non-null prefix
