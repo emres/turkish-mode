@@ -6,6 +6,10 @@
 ;; Keywords: turkish, languages, automatic, conversion
 ;; URL: http://www.denizyuret.com/2006/11/emacs-turkish-mode.html
 
+;; This file is not part of GNU Emacs.
+
+;; This file is free software (MIT License)
+
 ;;; Commentary:
 
 ;; This is for people trying to type Turkish documents on a U.S.
