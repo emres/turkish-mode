@@ -116,12 +116,13 @@ accent of the character under cursor."
 (defun turkish-correct-region (start end)
   "Adds necessary accents to the words in the region."
   (interactive "r")
-  (save-excursion
+  (save-mark-and-excursion
     (goto-char start)
     (while (< (point) end)
       (if (turkish-need-correction-p)
 	  (turkish-toggle-accent))
-      (forward-char))))
+      (forward-char)
+      (setq deactivate-mark nil))))
 
 (defun turkish-asciify-region (start end)
   "Replaces turkish letters with ascii equivalents in region."
